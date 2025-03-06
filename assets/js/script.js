@@ -11,13 +11,21 @@ document.addEventListener('click', (e) => {
 const writeToInput = (dataset) => {
     switch (dataset) {
         case "=":
-            calculate(input.value)
+            if (
+                !isNaN(input.value.trim().slice(-1))
+            ) {
+                return
+            }
+
+            calculate(input.value.trim())   
             break;
         case "clear":
             input.value = ''
             break;
         default:
-            input.value += input.value ? ' ' + dataset : dataset;
+            input.value += isNaN(dataset)
+                ? ` ${dataset} `
+                : dataset;
     }
 }
 
