@@ -11,24 +11,33 @@ document.addEventListener('click', (e) => {
 const writeToInput = (dataset) => {
     switch (dataset) {
         case "=":
-            if (
-                !isNaN(input.value.trim().slice(-1))
-            ) {
-                return
-            }
-
-            calculate(input.value.trim())   
+            if (!input.value.trim() || isNaN(input.value.trim().slice(-1))) return
+            calculate(input.value.trim())
             break;
         case "clear":
             input.value = ''
             break;
         default:
-            input.value += isNaN(dataset)
-                ? ` ${dataset} `
-                : dataset;
+            input.value +=
+                isNaN(dataset) && dataset != '.'
+                    ? ` ${dataset} `
+                    : dataset;
     }
 }
 
 const calculate = (value) => {
-    input.value = eval(value)
+    validateInput();
+    try {
+        input.value = new Function(`return ${value}`)();
+    } catch {
+        input.value = '';
+        alert('Error');
+    }
+};
+
+// validate input
+
+const validateInput = () => {
+    input.value = input.value.replace(/[^1234567890/*\-.+]/g, '');
 }
+input.addEventListener('input', validateInput)
