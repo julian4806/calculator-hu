@@ -13,31 +13,31 @@ const writeToInput = (dataset) => {
         case "=":
             if (!input.value.trim() || isNaN(input.value.trim().slice(-1))) return
             calculate(input.value.trim())
-            break;
+            break
         case "clear":
             input.value = ''
-            break;
+            break
         default:
             input.value +=
                 isNaN(dataset) && dataset != '.'
                     ? ` ${dataset} `
-                    : dataset;
+                    : dataset
     }
 }
 
 const calculate = (value) => {
-    validateInput();
+    validateInput()
     try {
-        input.value = new Function(`return ${value}`)();
+        input.value = new Function(`return ${value}`)()
     } catch {
-        input.value = '';
-        alert('Error');
+        input.value = ''
+        alert('Error')
     }
-};
+}
 
 // validate input
 
 const validateInput = () => {
-    input.value = input.value.replace(/[^1234567890/*\-.+]/g, '');
+    input.value = input.value.replace(/[^1234567890/*\-.+]/g, '')
 }
 input.addEventListener('input', validateInput)
